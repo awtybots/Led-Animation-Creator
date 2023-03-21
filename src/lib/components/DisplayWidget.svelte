@@ -1,11 +1,11 @@
 <script>
     // @ts-nocheck
-    export let Title;
+    export let title;
     
 </script>
     
     <div class = "Widget">
-        <div class = "">{Title}</div>
+        <div class = "">{title}</div>
     </div>
     
     <style>

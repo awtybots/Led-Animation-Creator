@@ -4,6 +4,53 @@
 	import DisplayWidget from '$lib/components/DisplayWidget.svelte';
 	import StaticWidget from '$lib/components/StaticWidget.svelte';
 
+	let json;
+
+	function hexToRgb(hex) {
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+		return result ? {
+			r: parseInt(result[1], 16),
+			g: parseInt(result[2], 16),
+			b: parseInt(result[3], 16),
+		} : {
+			r: 0,
+			g: 0,
+			b: 0
+		}
+	}
+
+	function formatJson() {
+		json = []
+		dropped_data.map((data) => {
+			let durationPeriodic = Math.floor(data.duration * 50);
+			let length = data.length;
+			let color = hexToRgb(data.color);
+			console.log(length)
+			console.log(color)
+			for(let i = 0; i < durationPeriodic; i++) {
+				json.push({
+					"r": color.r,
+					"g": color.g,
+					"b": color.b,
+					"length": length
+				})
+			}
+		})
+	}
+
+	function download() {
+		formatJson();
+		const filename = "5829-animation.json"
+
+		var element = document.createElement("a");
+		element.href = window.URL.createObjectURL(new Blob([JSON.stringify(json)], {type: 'text/json'}));
+		element.download = filename;
+		
+		document.body.appendChild(element);
+		element.click();
+
+		document.body.removeChild(element);
+	}
 
 	let drop_zone;
 	let dropped = [];
@@ -23,7 +70,8 @@
             .dataTransfer
             .getData("text");
 				dropped = dropped.concat(element_type);
-				dropped_data = dropped_data.concat({})
+				// dropped_data = dropped_data.concat({"duration": 0, "length": 0, "color": ""})
+				dropped_data.push({"duration": 0, "length": 0, "color": ""})
         dropped_in = true;
     }
 	
@@ -61,7 +109,7 @@
 
       	if (detectTouchEnd(drop_zone.offsetLeft, drop_zone.offsetTop, pageX, pageY, drop_zone.offsetWidth, drop_zone.offsetHeight)) {
         	dropped = dropped.concat(e.target.id);
-			dropped_data = dropped_data.concat({})
+			dropped_data = dropped_data.concat({"duration": 0, "length": 0, "color": ""})
         	e.target.style.position = "initial";
         	dropped_in = true;
         } else {
@@ -87,19 +135,16 @@
 </svelte:head>
 
 <section>
-
 	<div 
 		on:drop={handleDragDrop} 
 		bind:this={drop_zone} 
 		id="drop_zone" 
 		ondragover="return false"
 	>
-	{#each dropped as widget, i}
-		{widget}
-		<StaticWidget/>
-	{/each}
-</div>
-
+		{#each dropped as widget, i}
+			<StaticWidget bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color}/>
+		{/each}
+	</div>
 	<div
 		type = {"static"}
 		draggable=true 
@@ -109,8 +154,10 @@
 		on:touchmove={handleTouchMove}
 		on:touchend={handleTouchEnd}
 	>
-		<DisplayWidget Title = "Static"/>
+		<DisplayWidget title = "Static"/>
 	</div>
+	<button on:click = {download}>Download Animation File</button>
+
 </section>
 
 <style>
@@ -118,24 +165,15 @@
 	#drop_zone {
 		background-color: #eee;
 		border: #999 1px solid ;
-		width: 280px;
-		height: 200px;
+		width: 400px;
+		min-height: 200px;
 		padding: 8px;
 		font-size: 19px;
-	}
 
-	.objects {
-		display: inline-block;
-		background-color: #FFF3CC;
-		border: #DFBC6A 1px solid;
-		width: 50px;
-		height: 50px;
-		margin: 10px;
-		padding: 8px;
-		font-size: 18px;
-		text-align: center;
-		box-shadow: 2px 2px 2px #999;
-		cursor: move;
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		gap: 20px;
 	}
 
 	section {

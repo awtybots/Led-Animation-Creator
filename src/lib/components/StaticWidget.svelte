@@ -8,17 +8,17 @@
 </script>
 
 <div class = "Widget">
-    <div class = "Title">Fade</div>
+    <div class = "Title">Static</div>
     <div class = "Buttons">
         <div class = "Button"><input class = "TextInput" bind:value={duration} /></div>
         <div class = "Button"><input class = "TextInput" bind:value={length} /></div>
-        <div class = "Button"><input class = "ColorInput" bind:value={color} type="color"/></div>
+        <div class = "Button"><input class = "ColorInput" bind:value={color} type="color"></div>
     </div>
 </div>
 
 <style>
     .Widget {
-        border: 5px white;
+        border: white;
         background-color: #CC3273;
         width: 300px;
         height: 95px;
@@ -52,11 +52,19 @@
         outline: none;
         border: none;
         width: 100%;
+        height: 40px;
     }
 
     .ColorInput {
-        outline: none;
+        -webkit-appearance: none;
         border: none;
         width: 100%;
+        height: 40px;
+    }
+    .ColorInput::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    .ColorInput::-webkit-color-swatch {
+        border: none;
     }
 </style>
