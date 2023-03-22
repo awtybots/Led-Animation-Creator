@@ -72,7 +72,7 @@
             .getData("text");
 				dropped = dropped.concat(element_type);
 				// dropped_data = dropped_data.concat({"duration": 0, "length": 0, "color": ""})
-				dropped_data.push({"duration": 0, "length": 0, "color": ""})
+				dropped_data.push({"duration": 1, "length": 100, "color": "#ffffff"})
         dropped_in = true;
     }
 	
@@ -110,7 +110,7 @@
 
       	if (detectTouchEnd(drop_zone.offsetLeft, drop_zone.offsetTop, pageX, pageY, drop_zone.offsetWidth, drop_zone.offsetHeight)) {
         	dropped = dropped.concat(e.target.id);
-			dropped_data = dropped_data.concat({"duration": 0, "length": 0, "color": ""})
+			dropped_data = dropped_data.concat({"duration": 1, "length": 100, "color": "white"})
         	e.target.style.position = "initial";
         	dropped_in = true;
         } else {
@@ -140,6 +140,8 @@
 <section>
 	{#if dropped_data.length > 0}
 		<LedViewer bind:data = {dropped_data}/>
+	{:else} 
+		<LedViewer data = {[{"duration": 0, "length": 100, "color": "green"}]}/>
 	{/if}
 
 	<div 
@@ -149,7 +151,10 @@
 		ondragover="return false"
 	>
 		{#each dropped as widget, i}
-			<StaticWidget bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color}/>
+			<div class = "Widget">
+				<button class = "Delete" on:click = {() => {dropped = dropped.slice(0, i).concat(dropped.slice(i+1)); dropped_data.splice(i, 1); dropped_data = dropped_data}}>X</button>
+				<StaticWidget title= {widget} bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color}/>
+			</div>
 		{/each}
 	</div>
 	<div
@@ -170,12 +175,13 @@
 <style>
 
 	#drop_zone {
-		background-color: #eee;
-		border: #999 1px solid ;
+		background-color: rgb(16, 16, 16);
+		border: white 3px solid ;
 		width: 400px;
 		min-height: 200px;
-		padding: 8px;
+		padding: 50px 20px 50px 20px;
 		font-size: 19px;
+		border-radius: 30px;
 
 		display: flex;
 		flex-direction: column;
@@ -189,5 +195,24 @@
 		justify-content: center;
 		align-items: center;
 		flex: 0.6;
+	}
+
+	.Widget {
+		position: relative;
+		border-radius: 10px;
+		overflow: hidden;
+	}
+
+	.Delete {
+		position: absolute;
+		padding: 5px;
+		border-radius: 0 0 0 10px;
+		width: 30px;
+		height: 30px;
+		border: solid 1px black;
+		text-align: center;
+		top: 0;
+		right: 0;
+		background-color: red;
 	}
 </style>

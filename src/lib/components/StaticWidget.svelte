@@ -1,6 +1,8 @@
 <script>
 // @ts-nocheck
 
+    export let title;
+
     export let duration;
     export let color;
     export let length;
@@ -8,7 +10,7 @@
 </script>
 
 <div class = "Widget">
-    <div class = "Title">Static</div>
+    <div class = "Title">{title}</div>
     <div class = "Buttons">
         <div class = "Button"><input class = "TextInput" bind:value={duration} /></div>
         <div class = "Button"><input class = "TextInput" bind:value={length} /></div>
