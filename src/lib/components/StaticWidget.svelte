@@ -34,7 +34,7 @@
         font-size: 45px;
         font-weight: bold;
 
-        Height: 60%;
+        height: 60%;
         background-color: #CC3273;
     }
 

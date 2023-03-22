@@ -2,9 +2,10 @@
 // @ts-nocheck
 
 	import DisplayWidget from '$lib/components/DisplayWidget.svelte';
+    import LedViewer from '$lib/components/LedViewer.svelte';
 	import StaticWidget from '$lib/components/StaticWidget.svelte';
 
-	let json;
+	let json = [{"r": 0, "g": 0, "b": 0}];
 
 	function hexToRgb(hex) {
 		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -127,6 +128,8 @@
       	return false;
     	return true;
     }
+
+	let y = 0;
 </script>
 
 <svelte:head>
@@ -135,6 +138,10 @@
 </svelte:head>
 
 <section>
+	{#if dropped_data.length > 0}
+		<LedViewer bind:data = {dropped_data}/>
+	{/if}
+
 	<div 
 		on:drop={handleDragDrop} 
 		bind:this={drop_zone} 
