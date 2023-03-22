@@ -22,20 +22,18 @@
 
 	function formatJson() {
 		json = []
-		dropped_data.map((data) => {
+		dropped_data.map((data, i) => {
 			let durationPeriodic = Math.floor(data.duration * 50);
 			let length = data.length;
 			let color = hexToRgb(data.color);
-			console.log(length)
-			console.log(color)
 			for(let i = 0; i < durationPeriodic; i++) {
 				json.push({
 					"r": color.r,
 					"g": color.g,
 					"b": color.b,
-					"length": length
+					"length": dropped[i] == "ramp" ? length * 1/(1-i) : length 
 				})
-			}
+			} 
 		})
 	}
 
@@ -72,8 +70,13 @@
             .getData("text");
 				dropped = dropped.concat(element_type);
 				// dropped_data = dropped_data.concat({"duration": 0, "length": 0, "color": ""})
-				dropped_data.push({"duration": 1, "length": 100, "color": "#ffffff"})
+				dropped_data.push({"type": element_type, "duration": 1, "length": 100, "color": "#ffffff"})
         dropped_in = true;
+
+		//! for(var i = 1; i < 101; i++) {
+		//! 	dropped = dropped.concat("static")
+		//! 	dropped_data.push({"duration": 0.005, "length": i, "color": "#ffffff"})
+		//! }
     }
 	
 	function handleDragStart(e) {
@@ -110,7 +113,7 @@
 
       	if (detectTouchEnd(drop_zone.offsetLeft, drop_zone.offsetTop, pageX, pageY, drop_zone.offsetWidth, drop_zone.offsetHeight)) {
         	dropped = dropped.concat(e.target.id);
-			dropped_data = dropped_data.concat({"duration": 1, "length": 100, "color": "white"})
+			dropped_data = dropped_data.concat({"type": e.target.it, "duration": 1, "length": 100, "color": "white"})
         	e.target.style.position = "initial";
         	dropped_in = true;
         } else {
@@ -167,6 +170,17 @@
 		on:touchend={handleTouchEnd}
 	>
 		<DisplayWidget title = "Static"/>
+	</div>
+	<div
+		type = {"ramp"}
+		draggable=true 
+		on:dragstart={handleDragStart}
+		on:dragend={handleDragEnd}
+		on:touchstart={handleTouchStart}
+		on:touchmove={handleTouchMove}
+		on:touchend={handleTouchEnd}
+	>
+		<DisplayWidget title = "Ramp"/>
 	</div>
 	<button on:click = {download}>Download Animation File</button>
 
