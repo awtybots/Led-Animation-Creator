@@ -28,6 +28,10 @@
     }
 
     function playAnimation(){
+        var id = window.setTimeout(function() {}, 0);
+        while (id--) {
+            window.clearTimeout(id); // will do nothing if no timeout with id is present
+}
         y = 0;
         z = 0;
         timeSum = 0

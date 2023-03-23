@@ -14,18 +14,26 @@ const DisplayWidget = create_ssr_component(($$result, $$props, $$bindings, slots
 });
 const LedViewer_svelte_svelte_type_style_lang = "";
 const css$2 = {
-  code: ".Viewer.svelte-mfb4w5{display:flex}.Percent.svelte-mfb4w5{background-color:black;height:100px;width:1000px}",
+  code: ".Viewer.svelte-1jxr940{display:flex;justify-content:center;align-items:center;transition:500ms}.Percent.svelte-1jxr940{position:relative;background-color:black;width:1000px;height:100px;transition:500ms;border-radius:10px}.Percent.svelte-1jxr940::before{content:'';display:block;position:absolute;width:Calc(100% - 35px);height:Calc(100% - 35px);top:15.5px;left:14.5px;border:3px solid black;border-radius:10px}",
   map: null
 };
 const LedViewer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { data } = $$props;
   let y = 0;
+  let z = 0;
   if ($$props.data === void 0 && $$bindings.data && data !== void 0)
     $$bindings.data(data);
   $$result.css.add(css$2);
-  return `<div><button>Play</button>
-    <div class="Viewer svelte-mfb4w5">
-        <div style="${"background: linear-gradient(90deg, " + escape(data[y].color, true) + " 0%, " + escape(data[y].color, true) + " " + escape(data[y].length, true) + "%, rgba(0,0,0,1) " + escape(data[y].length, true) + "%)"}" class="Percent svelte-mfb4w5"></div></div>
+  return `
+<div><button>Play</button>
+    <div class="Viewer svelte-1jxr940">
+        <div style="${"background: linear-gradient(90deg, " + escape(data[y].color, true) + " 0%, " + escape(data[y].color, true) + " " + escape(
+    data[y].type == "ramp" ? data[y].length * z : data[y].length,
+    true
+  ) + "%, rgba(0,0,0,1) " + escape(
+    data[y].type == "ramp" ? data[y].length * z : data[y].length,
+    true
+  ) + "%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;"}" class="Percent svelte-1jxr940"></div></div>
 </div>`;
 });
 const StaticWidget_svelte_svelte_type_style_lang = "";
@@ -34,9 +42,12 @@ const css$1 = {
   map: null
 };
 const StaticWidget = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let { title } = $$props;
   let { duration } = $$props;
   let { color } = $$props;
   let { length } = $$props;
+  if ($$props.title === void 0 && $$bindings.title && title !== void 0)
+    $$bindings.title(title);
   if ($$props.duration === void 0 && $$bindings.duration && duration !== void 0)
     $$bindings.duration(duration);
   if ($$props.color === void 0 && $$bindings.color && color !== void 0)
@@ -44,7 +55,7 @@ const StaticWidget = create_ssr_component(($$result, $$props, $$bindings, slots)
   if ($$props.length === void 0 && $$bindings.length && length !== void 0)
     $$bindings.length(length);
   $$result.css.add(css$1);
-  return `<div class="Widget svelte-tooj6s"><div class="Title svelte-tooj6s">Static</div>
+  return `<div class="Widget svelte-tooj6s"><div class="Title svelte-tooj6s">${escape(title)}</div>
     <div class="Buttons svelte-tooj6s"><div class="Button svelte-tooj6s"><input class="TextInput svelte-tooj6s"${add_attribute("value", duration, 0)}></div>
         <div class="Button svelte-tooj6s"><input class="TextInput svelte-tooj6s"${add_attribute("value", length, 0)}></div>
         <div class="Button svelte-tooj6s"><input class="ColorInput svelte-tooj6s" type="color"${add_attribute("value", color, 0)}></div></div>
@@ -52,7 +63,7 @@ const StaticWidget = create_ssr_component(($$result, $$props, $$bindings, slots)
 });
 const _page_svelte_svelte_type_style_lang = "";
 const css = {
-  code: "#drop_zone.svelte-1w4mr8w{background-color:#eee;border:#999 1px solid ;width:400px;min-height:200px;padding:8px;font-size:19px;display:flex;flex-direction:column;place-items:center;gap:20px}section.svelte-1w4mr8w{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:0.6}",
+  code: "#drop_zone.svelte-ntwcyo{background-color:rgb(16, 16, 16);border:white 3px solid ;width:400px;min-height:200px;padding:50px 20px 50px 20px;font-size:19px;border-radius:30px;display:flex;flex-direction:column;place-items:center;gap:20px}section.svelte-ntwcyo{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:0.6}.Widget.svelte-ntwcyo{position:relative;border-radius:10px;overflow:hidden}.Delete.svelte-ntwcyo{position:absolute;padding:5px;border-radius:0 0 0 10px;width:30px;height:30px;border:solid 1px black;text-align:center;top:0;right:0;background-color:red}",
   map: null
 };
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -66,7 +77,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$settled = true;
     $$rendered = `${$$result.head += `<!-- HEAD_svelte-1bk068h_START -->${$$result.title = `<title>Led Animation Creator</title>`, ""}<meta name="description" content="Svelte demo app"><!-- HEAD_svelte-1bk068h_END -->`, ""}
 
-<section class="svelte-1w4mr8w">${dropped_data.length > 0 ? `${validate_component(LedViewer, "LedViewer").$$render(
+<section class="svelte-ntwcyo">${dropped_data.length > 0 ? `${validate_component(LedViewer, "LedViewer").$$render(
       $$result,
       { data: dropped_data },
       {
@@ -76,12 +87,27 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
         }
       },
       {}
-    )}` : ``}
+    )}` : `${validate_component(LedViewer, "LedViewer").$$render(
+      $$result,
+      {
+        data: [
+          {
+            "duration": 0,
+            "length": 100,
+            "color": "green"
+          }
+        ]
+      },
+      {},
+      {}
+    )}`}
 
-	<div id="drop_zone" ondragover="return false" class="svelte-1w4mr8w"${add_attribute("this", drop_zone, 0)}>${each(dropped, (widget, i) => {
-      return `${validate_component(StaticWidget, "StaticWidget").$$render(
+	<div id="drop_zone" ondragover="return false" class="svelte-ntwcyo"${add_attribute("this", drop_zone, 0)}>${each(dropped, (widget, i) => {
+      return `<div class="Widget svelte-ntwcyo"><button class="Delete svelte-ntwcyo">X</button>
+				${validate_component(StaticWidget, "StaticWidget").$$render(
         $$result,
         {
+          title: widget,
           duration: dropped_data[i].duration,
           length: dropped_data[i].length,
           color: dropped_data[i].color
@@ -101,9 +127,11 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
           }
         },
         {}
-      )}`;
+      )}
+			</div>`;
     })}</div>
 	<div${add_attribute("type", "static", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Static" }, {}, {})}</div>
+	<div${add_attribute("type", "ramp", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Ramp" }, {}, {})}</div>
 	<button>Download Animation File</button>
 
 </section>`;

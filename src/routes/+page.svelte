@@ -26,12 +26,12 @@
 			let durationPeriodic = Math.floor(data.duration * 50);
 			let length = data.length;
 			let color = hexToRgb(data.color);
-			for(let i = 0; i < durationPeriodic; i++) {
+			for(let y = 0; y < durationPeriodic; y++) {
 				json.push({
 					"r": color.r,
 					"g": color.g,
 					"b": color.b,
-					"length": dropped[i] == "ramp" ? length * 1/(1-i) : length 
+					"length": data.type == "ramp" ? 1/durationPeriodic * (y+1) : length 
 				})
 			} 
 		})
