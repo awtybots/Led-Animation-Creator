@@ -5,6 +5,7 @@
 
     export let duration;
     export let color;
+    export let color2;
     export let length;
 
 </script>
@@ -15,6 +16,9 @@
         <div class = "Button"><input class = "TextInput" bind:value={duration} /></div>
         <div class = "Button"><input class = "TextInput" bind:value={length} /></div>
         <div class = "Button"><input class = "ColorInput" bind:value={color} type="color"></div>
+        {#if title === "transition"} 
+            <div class = "Button"><input class = "ColorInput" bind:value={color2} type="color"></div>
+        {/if}
     </div>
 </div>
 

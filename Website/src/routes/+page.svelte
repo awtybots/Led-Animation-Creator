@@ -22,18 +22,24 @@
 		}
 	}
 
+    function interval(duration, c1, c2) {
+        return (c2-c1) / (duration)
+    }
+
 	function formatJson() {
 		json = []
 		dropped_data.map((data, i) => {
+			console.log(data);
 			let durationPeriodic = Math.floor(data.duration * 50);
 			let length = data.length;
 			let color = hexToRgb(data.color);
+			let color2 = hexToRgb(data.color2);
 			for(let y = 0; y < durationPeriodic; y++) {
 				json.push({
-					"r": color.r,
-					"g": color.g,
-					"b": color.b,
-					"length": data.type == "ramp" ? 1/durationPeriodic * (y+1) : length/100
+					"r": data.type == "transition" ? Math.floor(color.r + interval(durationPeriodic, color.r, color2.r)*y) : color.r,
+					"g": data.type == "transition" ? Math.floor(color.g + interval(durationPeriodic, color.g, color2.g)*y) : color.g,
+					"b": data.type == "transition" ? Math.floor(color.b + interval(durationPeriodic, color.b, color2.b)*y) : color.b,
+					"length": data.type == "ramp" ? Math.floor((1/durationPeriodic * (y+1)) * length) : length
 				})
 			} 
 		})
@@ -72,13 +78,8 @@
             .getData("text");
 				dropped = dropped.concat(element_type);
 				// dropped_data = dropped_data.concat({"duration": 0, "length": 0, "color": ""})
-				dropped_data.push({"type": element_type, "duration": 1, "length": 100, "color": "#ffffff"})
+				dropped_data.push({"type": element_type, "duration": 1, "length": 100, "color": "#ffffff", "color2": "#ffffff"})
         dropped_in = true;
-
-		//! for(var i = 1; i < 101; i++) {
-		//! 	dropped = dropped.concat("static")
-		//! 	dropped_data.push({"duration": 0.005, "length": i, "color": "#ffffff"})
-		//! }
     }
 	
 	function handleDragStart(e) {
@@ -115,7 +116,7 @@
 
       	if (detectTouchEnd(drop_zone.offsetLeft, drop_zone.offsetTop, pageX, pageY, drop_zone.offsetWidth, drop_zone.offsetHeight)) {
         	dropped = dropped.concat(e.target.id);
-			dropped_data = dropped_data.concat({"type": e.target.it, "duration": 1, "length": 100, "color": "white"})
+			dropped_data = dropped_data.concat({"type": e.target.it, "duration": 1, "length": 100, "color": "white", "color2": "white"})
         	e.target.style.position = "initial";
         	dropped_in = true;
         } else {
@@ -146,7 +147,7 @@
 	{#if dropped_data.length > 0}
 		<LedViewer bind:data = {dropped_data}/>
 	{:else} 
-		<LedViewer data = {[{"duration": 0, "length": 100, "color": "green"}]}/>
+		<LedViewer data = {[{"duration": 0, "length": 100, "color": "#10D513", "color2": "#10D513"}]}/>
 	{/if}
 
 	<div class = "Container">
@@ -174,6 +175,17 @@
 				>
 					<DisplayWidget title = "Ramp"/>
 				</div>
+				<div
+					type = {"transition"}
+					draggable=true 
+					on:dragstart={handleDragStart}
+					on:dragend={handleDragEnd}
+					on:touchstart={handleTouchStart}
+					on:touchmove={handleTouchMove}
+					on:touchend={handleTouchEnd}
+				>
+					<DisplayWidget title = "Transition"/>
+				</div>
 			</div>
 			<div class = "DownloadContainer">
 				<button class="DownloadButton" on:click = {download}><img class = "DownloadImage" src = {img}/></button>
@@ -189,7 +201,7 @@
 			{#each dropped as widget, i}
 				<div class = "WidgetContainer">
 					<button class = "Delete" on:click = {() => {dropped = dropped.slice(0, i).concat(dropped.slice(i+1)); dropped_data.splice(i, 1); dropped_data = dropped_data}}>X</button>
-					<StaticWidget title= {widget} bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color}/>
+					<StaticWidget title= {widget} bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color} bind:color2 = {dropped_data[i].color2}/>
 				</div>
 			{/each}
 		</div>

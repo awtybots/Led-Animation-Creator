@@ -1,38 +1,31 @@
-# create-svelte
+# Team Awtybots 5829's LED Animation Creator
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## [Website](https://5829-ledanimation-creator.netlify.app/)
+- Drag and drop the widget inside the builder tool
+- Widgets:
+    - Static: Lights up in a single color
+        - First input box: duration in seconds of the lighting
+        - Second input box: percentage of LEDs to light up
+        - Color box: color that the LEDs will turn to
+    - Ramp: Gradually turns on the LEDs
+        - First input box: duration in seconds of the animation
+        - Second input box: percentage of LEDs to light up
+        - Color box: color that the LEDs will turn to
+    - Transition: Transitions between two colors with a gradient
+        - First input box: duration in seconds of the animation
+        - Second input box: percentage of LEDs to light up
+        - First Color box: color that the LEDs will start as
+        - Second Color box: color that the LEDs will turn to
+- The viewer lets you preview your LED animation
+- Download your sequence of animations as a JSON file
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Code (Only Java is supported yet. You can write your own C++ file inspired from the Java one)
+- Download the **LedCustomAnimations.java** file and move it inside your FRC Robot Code folder
+- Create a folder named **5829LedAnimation** under the **deploy** folder
+- Drag and drop your JSON animations in this folder
+- In your LED Subsystem file:
+    - Import the **LedCustomAnimations.java** file
+    - Initialize your animations in the subsystem's constructor:
+        - *exampleAnimation = new LedCustomAnimations(yourAddressableLED (AddressableLED), yourAddressableLEDBuffer (AddressableLEDBuffer), NameOfTheFileWihoutExtention (String), DelayBeforeAnimation (int), isLoop (boolean));*
+    - In the periodic() method, call the animation:
+        - *exampleAnimation.setAnimation()*;
