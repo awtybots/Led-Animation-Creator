@@ -31,16 +31,16 @@ const LedViewer = create_ssr_component(($$result, $$props, $$bindings, slots) =>
 <div class="Container svelte-1c8m9f4"><button class="PlayButton svelte-1c8m9f4"><img class="PlayImage svelte-1c8m9f4"${add_attribute("src", img, 0)}></button>
     <div class="Viewer svelte-1c8m9f4">
         <div style="${"background: linear-gradient(90deg, " + escape(
-    data[y] != void 0 ? data[y].type == "transition" ? x : data[y].color : "black",
+    data[y] != void 0 ? data[y].type == "transition" || data[y].type == "transitionramp" ? x : data[y].color : "black",
     true
   ) + " 0%, " + escape(
-    data[y] != void 0 ? data[y].type == "transition" ? x : data[y].color : "black",
+    data[y] != void 0 ? data[y].type == "transition" || data[y].type == "transitionramp" ? x : data[y].color : "black",
     true
   ) + " " + escape(
-    data[y] != void 0 ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0,
+    data[y] != void 0 ? data[y].type == "ramp" || data[y].type == "transitionramp" ? data[y].length * z : data[y].length : 0,
     true
   ) + "%, rgba(0,0,0,1) " + escape(
-    data[y] != void 0 ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0,
+    data[y] != void 0 ? data[y].type == "ramp" || data[y].type == "transitionramp" ? data[y].length * z : data[y].length : 0,
     true
   ) + "%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;"}" class="Percent svelte-1c8m9f4"></div></div>
 </div>`;
@@ -71,7 +71,7 @@ const StaticWidget = create_ssr_component(($$result, $$props, $$bindings, slots)
     <div class="Buttons svelte-1iv4nvq"><div class="Button svelte-1iv4nvq"><input class="TextInput svelte-1iv4nvq"${add_attribute("value", duration, 0)}></div>
         <div class="Button svelte-1iv4nvq"><input class="TextInput svelte-1iv4nvq"${add_attribute("value", length, 0)}></div>
         <div class="Button svelte-1iv4nvq"><input class="ColorInput svelte-1iv4nvq" type="color"${add_attribute("value", color, 0)}></div>
-        ${title === "transition" ? `<div class="Button svelte-1iv4nvq"><input class="ColorInput svelte-1iv4nvq" type="color"${add_attribute("value", color2, 0)}></div>` : ``}</div>
+        ${title === "transition" || title === "transitionramp" ? `<div class="Button svelte-1iv4nvq"><input class="ColorInput svelte-1iv4nvq" type="color"${add_attribute("value", color2, 0)}></div>` : ``}</div>
 </div>`;
 });
 const _page_svelte_svelte_type_style_lang = "";
@@ -118,7 +118,8 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
 	<div class="Container svelte-18mlgzm"><div class="Left svelte-18mlgzm"><div class="Widgets svelte-18mlgzm"><div${add_attribute("type", "static", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Static" }, {}, {})}</div>
 				<div${add_attribute("type", "ramp", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Ramp" }, {}, {})}</div>
-				<div${add_attribute("type", "transition", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Transition" }, {}, {})}</div></div>
+				<div${add_attribute("type", "transition", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Transition" }, {}, {})}</div>
+				<div${add_attribute("type", "transitionramp", 0)} draggable="true">${validate_component(DisplayWidget, "DisplayWidget").$$render($$result, { title: "Transition Ramp" }, {}, {})}</div></div>
 			<div class="DownloadContainer svelte-18mlgzm"><button class="DownloadButton svelte-18mlgzm"><img class="DownloadImage svelte-18mlgzm"${add_attribute("src", img$1, 0)}></button></div></div>
 		<div class="Right svelte-18mlgzm" id="drop_zone" ondragover="return false"${add_attribute("this", drop_zone, 0)}>${each(dropped, (widget, i) => {
       return `<div class="WidgetContainer svelte-18mlgzm"><button class="Delete svelte-18mlgzm">X</button>

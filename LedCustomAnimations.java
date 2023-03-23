@@ -48,8 +48,6 @@ public class LedCustomAnimations {
     }
 
     public void setAnimation() {
-        System.out.println(getAnimationLength());
-        System.out.println(Timer);
         if (Timer < 0) {
             Timer++;
             return;
@@ -90,6 +88,11 @@ public class LedCustomAnimations {
             e.printStackTrace();
             return new JSONArray();
         }
+    }
+
+    public void end(){
+        setLoop(false);
+        Timer = getAnimationLength();
     }
 
     public boolean isFinished(){
