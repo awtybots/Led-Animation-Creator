@@ -1,6 +1,8 @@
 <script>
 // @ts-nocheck
 
+    import img from '../images/play-icon-white.png'
+
     export let data;
     let y = 0;
     let z = 0;
@@ -47,15 +49,15 @@
                 }
             }
         } catch(e){
-            
+
         }
 }
 
 </script>
 
 <!-- svelte-ignore non-top-level-reactive-declaration -->
-<div>
-    <button on:click={() => playAnimation()}>Play</button>
+<div class = "Container">
+    <button class = "PlayButton" on:click={() => playAnimation()}><img class = "PlayImage" src = {img}/></button>
     <div class = "Viewer">
         <!-- <div style="background-color: {data[y].color}" class = "Percent"></div> -->
         <div style = "background: linear-gradient(90deg, {data[y] != undefined ? data[y].color : "black"} 0%, {data[y] != undefined ? data[y].color : "black"} {data[y] != undefined ? data[y].type == "ramp" ? data[y].length * z: data[y].length : 0}%, rgba(0,0,0,1) {data[y] != undefined ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0}%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;" class = "Percent"></div>
@@ -63,19 +65,23 @@
 </div>
 
 <style>
+    .Container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .Viewer {
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: 500ms;
     }
 
     .Percent {
         position: relative;
         background-color: black;
-        width: 1000px;
+        width: 50vw;
         height: 100px;
-        transition: 500ms;
         border-radius: 10px;
     }
 
@@ -89,5 +95,28 @@
         left: 14.5px;
         border: 3px solid black;
         border-radius: 10px;
+    }
+
+    .PlayButton {
+        position: relative;
+        border-radius: 50%;
+        outline: none;
+        border: none;
+        width: 100px;
+        background-color: transparent;
+        transition: 100ms;
+    }
+
+    .PlayButton:hover {
+        transform: scale(1.05);
+    }
+    
+    .PlayButton:active {
+        background-color: black;
+        box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;
+    }
+
+    .PlayImage {
+        width: 100%;
     }
 </style>

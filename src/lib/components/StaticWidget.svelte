@@ -22,7 +22,6 @@
     .Widget {
         border: white;
         background-color: #CC3273;
-        width: 300px;
         height: 95px;
         border-radius: 10px;
         overflow: hidden;

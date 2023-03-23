@@ -1,6 +1,8 @@
 <script>
 // @ts-nocheck
 
+	import img from "../lib/images/download.png";
+
 	import DisplayWidget from '$lib/components/DisplayWidget.svelte';
     import LedViewer from '$lib/components/LedViewer.svelte';
 	import StaticWidget from '$lib/components/StaticWidget.svelte';
@@ -147,60 +149,88 @@
 		<LedViewer data = {[{"duration": 0, "length": 100, "color": "green"}]}/>
 	{/if}
 
-	<div 
-		on:drop={handleDragDrop} 
-		bind:this={drop_zone} 
-		id="drop_zone" 
-		ondragover="return false"
-	>
-		{#each dropped as widget, i}
-			<div class = "Widget">
-				<button class = "Delete" on:click = {() => {dropped = dropped.slice(0, i).concat(dropped.slice(i+1)); dropped_data.splice(i, 1); dropped_data = dropped_data}}>X</button>
-				<StaticWidget title= {widget} bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color}/>
+	<div class = "Container">
+		<div class = "Left">
+			<div class = "Widgets">
+				<div
+					type = {"static"}
+					draggable=true 
+					on:dragstart={handleDragStart}
+					on:dragend={handleDragEnd}
+					on:touchstart={handleTouchStart}
+					on:touchmove={handleTouchMove}
+					on:touchend={handleTouchEnd}
+				>
+					<DisplayWidget title = "Static"/>
+				</div>
+				<div
+					type = {"ramp"}
+					draggable=true 
+					on:dragstart={handleDragStart}
+					on:dragend={handleDragEnd}
+					on:touchstart={handleTouchStart}
+					on:touchmove={handleTouchMove}
+					on:touchend={handleTouchEnd}
+				>
+					<DisplayWidget title = "Ramp"/>
+				</div>
 			</div>
-		{/each}
+			<div class = "DownloadContainer">
+				<button class="DownloadButton" on:click = {download}><img class = "DownloadImage" src = {img}/></button>
+			</div>
+		</div>
+		<div 
+			on:drop={handleDragDrop} 
+			bind:this={drop_zone} 
+			class = "Right"
+			id="drop_zone" 
+			ondragover="return false"
+		>
+			{#each dropped as widget, i}
+				<div class = "WidgetContainer">
+					<button class = "Delete" on:click = {() => {dropped = dropped.slice(0, i).concat(dropped.slice(i+1)); dropped_data.splice(i, 1); dropped_data = dropped_data}}>X</button>
+					<StaticWidget title= {widget} bind:duration = {dropped_data[i].duration} bind:length = {dropped_data[i].length} bind:color = {dropped_data[i].color}/>
+				</div>
+			{/each}
+		</div>
 	</div>
-	<div
-		type = {"static"}
-		draggable=true 
-		on:dragstart={handleDragStart}
-		on:dragend={handleDragEnd}
-		on:touchstart={handleTouchStart}
-		on:touchmove={handleTouchMove}
-		on:touchend={handleTouchEnd}
-	>
-		<DisplayWidget title = "Static"/>
-	</div>
-	<div
-		type = {"ramp"}
-		draggable=true 
-		on:dragstart={handleDragStart}
-		on:dragend={handleDragEnd}
-		on:touchstart={handleTouchStart}
-		on:touchmove={handleTouchMove}
-		on:touchend={handleTouchEnd}
-	>
-		<DisplayWidget title = "Ramp"/>
-	</div>
-	<button on:click = {download}>Download Animation File</button>
 
 </section>
 
 <style>
+	.Container {
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: 3fr  4fr;
+		width: 50vw;
+		border: solid 3px black;
+		background-color: rgb(49, 50, 80);
+		padding: 30px;
+		border-radius: 50px;
+		gap: 20px;
+	}
+	
+	.Left {
+		display: grid;
+		grid-template-rows: 2fr 1fr;
+		place-content: center;
+	}
+
+	.Widgets {
+		display: flex;
+		flex-direction: column;
+		place-content: space-evenly;
+		align-items: center;
+	}
 
 	#drop_zone {
 		background-color: rgb(16, 16, 16);
 		border: white 3px solid ;
-		width: 400px;
-		min-height: 200px;
+		height: 200px;
 		padding: 50px 20px 50px 20px;
 		font-size: 19px;
 		border-radius: 30px;
-
-		display: flex;
-		flex-direction: column;
-		place-items: center;
-		gap: 20px;
+		overflow-y: auto;
 	}
 
 	section {
@@ -208,13 +238,14 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		flex: 0.6;
 	}
 
-	.Widget {
+	.WidgetContainer {
 		position: relative;
 		border-radius: 10px;
+		width: 100%;
 		overflow: hidden;
+		margin: 0 0 25px 0;
 	}
 
 	.Delete {
@@ -228,5 +259,25 @@
 		top: 0;
 		right: 0;
 		background-color: red;
+	}
+
+	.DownloadContainer {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.DownloadButton {
+		outline: none;
+		border: none;
+		background-color: rgb(0, 213, 255);
+		border-radius: 50%;
+		width: 100px;
+		height: 100px;
+		padding: 10px;
+	}
+
+	.DownloadImage {
+		width: 100%;
 	}
 </style>
