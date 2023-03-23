@@ -27,11 +27,11 @@ const LedViewer = create_ssr_component(($$result, $$props, $$bindings, slots) =>
   return `
 <div><button>Play</button>
     <div class="Viewer svelte-1jxr940">
-        <div style="${"background: linear-gradient(90deg, " + escape(data[y].color, true) + " 0%, " + escape(data[y].color, true) + " " + escape(
-    data[y].type == "ramp" ? data[y].length * z : data[y].length,
+        <div style="${"background: linear-gradient(90deg, " + escape(data[y] != void 0 ? data[y].color : "black", true) + " 0%, " + escape(data[y] != void 0 ? data[y].color : "black", true) + " " + escape(
+    data[y] != void 0 ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0,
     true
   ) + "%, rgba(0,0,0,1) " + escape(
-    data[y].type == "ramp" ? data[y].length * z : data[y].length,
+    data[y] != void 0 ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0,
     true
   ) + "%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;"}" class="Percent svelte-1jxr940"></div></div>
 </div>`;

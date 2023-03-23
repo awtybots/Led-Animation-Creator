@@ -31,7 +31,7 @@
 					"r": color.r,
 					"g": color.g,
 					"b": color.b,
-					"length": data.type == "ramp" ? 1/durationPeriodic * (y+1) : length 
+					"length": data.type == "ramp" ? 1/durationPeriodic * (y+1) : length/100
 				})
 			} 
 		})
