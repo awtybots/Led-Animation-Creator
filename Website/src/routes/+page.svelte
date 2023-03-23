@@ -36,10 +36,10 @@
 			let color2 = hexToRgb(data.color2);
 			for(let y = 0; y < durationPeriodic; y++) {
 				json.push({
-					"r": data.type == "transition" ? Math.floor(color.r + interval(durationPeriodic, color.r, color2.r)*y) : color.r,
-					"g": data.type == "transition" ? Math.floor(color.g + interval(durationPeriodic, color.g, color2.g)*y) : color.g,
-					"b": data.type == "transition" ? Math.floor(color.b + interval(durationPeriodic, color.b, color2.b)*y) : color.b,
-					"length": data.type == "ramp" ? Math.floor((1/durationPeriodic * (y+1)) * length) : length
+					"r": data.type == "transition" || data.type == "transitionramp" ? Math.floor(color.r + interval(durationPeriodic, color.r, color2.r)*y) : color.r,
+					"g": data.type == "transition" || data.type == "transitionramp" ? Math.floor(color.g + interval(durationPeriodic, color.g, color2.g)*y) : color.g,
+					"b": data.type == "transition" || data.type == "transitionramp" ? Math.floor(color.b + interval(durationPeriodic, color.b, color2.b)*y) : color.b,
+					"length": data.type == "ramp" || data.type == "transitionramp" ? Math.floor((1/durationPeriodic * (y+1)) * length) : length
 				})
 			} 
 		})
@@ -185,6 +185,17 @@
 					on:touchend={handleTouchEnd}
 				>
 					<DisplayWidget title = "Transition"/>
+				</div>
+				<div
+					type = {"transitionramp"}
+					draggable=true 
+					on:dragstart={handleDragStart}
+					on:dragend={handleDragEnd}
+					on:touchstart={handleTouchStart}
+					on:touchmove={handleTouchMove}
+					on:touchend={handleTouchEnd}
+				>
+					<DisplayWidget title = "Transition Ramp"/>
 				</div>
 			</div>
 			<div class = "DownloadContainer">

@@ -16,7 +16,7 @@
         <div class = "Button"><input class = "TextInput" bind:value={duration} /></div>
         <div class = "Button"><input class = "TextInput" bind:value={length} /></div>
         <div class = "Button"><input class = "ColorInput" bind:value={color} type="color"></div>
-        {#if title === "transition"} 
+        {#if title === "transition" || title === "transitionramp"} 
             <div class = "Button"><input class = "ColorInput" bind:value={color2} type="color"></div>
         {/if}
     </div>

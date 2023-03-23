@@ -37,12 +37,15 @@
 
     function doSetTimeout(i, timeWait, type) {
         setTimeout(function() {
-            if(type == "ramp"){
+            if (type == "ramp"){
                 z = i
-            } else if(type == "static") {
+            } else if (type == "static") {
                 y = i;
-            } else {
+            } else if (type == "transition") {
                 x = i;
+            } else if (type == "transitionramp") {
+                z = i.ramp
+                x = i.transition
             }
         }, timeWait);
     }
@@ -69,6 +72,18 @@
         }, timeSum)
     }
 
+    function doSetTimeoutTransitionRamp(i, timeSum) {
+        setTimeout(function() {
+            let localTimeSum = 0;
+            y = i;
+            for(let j=0; j < data[i].duration * 50; j++) {
+                console.log("HI")
+                doSetTimeout({ramp: 1/(data[i].duration * 50) * (j+1), transition: findRGBValues(j, data[i].duration, data[i].color, data[i].color2)}, data[i].duration* 1000 / 50 + localTimeSum, "transitionramp"); //!
+                localTimeSum = localTimeSum/1.0 + 1000 / 50;
+            }
+        }, timeSum)
+    }
+
     function findRGBValues(i, duration, color1, color2) {
         let color1rgb = hexToRgb(color1)
         let color2rgb = hexToRgb(color2);
@@ -80,13 +95,6 @@
             g: Math.floor(color1rgb.g + ginterval*i),
             b: Math.floor(color1rgb.b + binterval*i)
         }
-        // // console.log("COLOR 1 RGB: ", color1rgb)
-        // // console.log("COLOR 2 RGB: ", color2rgb)
-        // // console.log("R INTERVAl: ", rinterval)
-        // // console.log("G INTERVAl: ", ginterval)
-        // // console.log("B INTERVAl: ", binterval)
-        console.log("MIXEDCOLOR RGB: ", mixedcolorrgb)
-        console.log(rgbToHex(mixedcolorrgb.r, mixedcolorrgb.g, mixedcolorrgb.b ))
         return rgbToHex(mixedcolorrgb.r, mixedcolorrgb.g, mixedcolorrgb.b);
     }
 
@@ -104,8 +112,10 @@
                     doSetTimeout(i, timeSum, data[i].type) 
                 } else if (data[i].type == "ramp") {
                     doSetTimeoutRamp(i, timeSum);
-                } else {
+                } else if (data[i].type == "transition"){
                     doSetTimeoutTransition(i, timeSum);
+                } else {
+                    doSetTimeoutTransitionRamp(i, timeSum)
                 }
                 timeSum = timeSum/1.0 + data[i].duration*1000;
             }
@@ -121,7 +131,7 @@
     <button class = "PlayButton" on:click={() => playAnimation()}><img class = "PlayImage" src = {img}/></button>
     <div class = "Viewer">
         <!-- <div style="background-color: {data[y].color}" class = "Percent"></div> -->
-        <div style = "background: linear-gradient(90deg, {data[y] != undefined ? data[y].type == "transition" ? x : data[y].color : "black"} 0%, {data[y] != undefined ? data[y].type == "transition" ? x : data[y].color : "black"} {data[y] != undefined ? data[y].type == "ramp" ? data[y].length * z: data[y].length : 0}%, rgba(0,0,0,1) {data[y] != undefined ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0}%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;" class = "Percent"></div>
+        <div style = "background: linear-gradient(90deg, {data[y] != undefined ? data[y].type == "transition" || data[y].type == "transitionramp" ? x : data[y].color : "black"} 0%, {data[y] != undefined ? data[y].type == "transition" || data[y].type == "transitionramp" ? x : data[y].color : "black"} {data[y] != undefined ? data[y].type == "ramp" || data[y].type == "transitionramp" ? data[y].length * z: data[y].length : 0}%, rgba(0,0,0,1) {data[y] != undefined ? data[y].type == "ramp" || data[y].type == "transitionramp" ? data[y].length * z : data[y].length : 0}%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;" class = "Percent"></div>
     </div>
 </div>
 
