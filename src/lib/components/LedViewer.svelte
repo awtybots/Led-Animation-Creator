@@ -28,23 +28,27 @@
     }
 
     function playAnimation(){
-        var id = window.setTimeout(function() {}, 0);
-        while (id--) {
-            window.clearTimeout(id); // will do nothing if no timeout with id is present
-}
-        y = 0;
-        z = 0;
-        timeSum = 0
-        for(let i = 0; i < data.length; i++) {
-            if(data[i].type == "static") {
-                doSetTimeout(i, timeSum, false);
-                timeSum = timeSum/1.0 + data[i].duration*1000;
-            } else {
-                doSetTimeout2(i, timeSum)
-                timeSum = timeSum/1.0 + data[i].duration*1000;
-                z = 0;
+        try {
+            var id = window.setTimeout(function() {}, 0);
+            while (id--) {
+                window.clearTimeout(id); // will do nothing if no timeout with id is present
             }
-    }
+            y = 0;
+            z = 0;
+            timeSum = 0
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].type == "static") {
+                    doSetTimeout(i, timeSum, false);
+                    timeSum = timeSum/1.0 + data[i].duration*1000;
+                } else {
+                    doSetTimeout2(i, timeSum)
+                    timeSum = timeSum/1.0 + data[i].duration*1000;
+                    z = 0;
+                }
+            }
+        } catch(e){
+            
+        }
 }
 
 </script>
@@ -54,7 +58,7 @@
     <button on:click={() => playAnimation()}>Play</button>
     <div class = "Viewer">
         <!-- <div style="background-color: {data[y].color}" class = "Percent"></div> -->
-        <div style = "background: linear-gradient(90deg, {data[y].color} 0%, {data[y].color} {data[y].type == "ramp" ? data[y].length * z: data[y].length}%, rgba(0,0,0,1) {data[y].type == "ramp" ? data[y].length * z : data[y].length}%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;" class = "Percent"></div>
+        <div style = "background: linear-gradient(90deg, {data[y] != undefined ? data[y].color : "black"} 0%, {data[y] != undefined ? data[y].color : "black"} {data[y] != undefined ? data[y].type == "ramp" ? data[y].length * z: data[y].length : 0}%, rgba(0,0,0,1) {data[y] != undefined ? data[y].type == "ramp" ? data[y].length * z : data[y].length : 0}%); box-shadow: inset 0 0 12px 12px #2D2E39, inset 0 0 3px 2px #2D2E39;" class = "Percent"></div>
     </div>
 </div>
 
