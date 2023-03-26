@@ -5,6 +5,7 @@
 
 <header>
 	<div class="corner">
+		<h1>Awtybots 5829</h1>
 	</div>
 	<nav>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -36,6 +37,7 @@
 	.corner {
 		width: 3em;
 		height: 3em;
+		padding: 0 1rem 0 1rem;
 	}
 
 	.corner a {
@@ -44,6 +46,10 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
+	}
+
+	.corner h1 {
+		color: white;
 	}
 
 	.corner img {

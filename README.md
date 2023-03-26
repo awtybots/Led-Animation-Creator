@@ -16,12 +16,13 @@
         - Second input box: percentage of LEDs to light up
         - First Color box: color that the LEDs will start as
         - Second Color box: color that the LEDs will turn to
+    - Transition Ramp: Mixes the Ramp and Transition widgets.
 - The viewer lets you preview your LED animation
 - Download your sequence of animations as a JSON file
 
 ## Code (Only Java is supported yet. You can write your own C++ file inspired from the Java one)
 - Download the **LedCustomAnimations.java** file and move it inside your FRC Robot Code folder
-- Create a folder named **5829LedAnimation** under the **deploy** folder
+- Create a folder named **5829LedAnimations** under the **deploy** folder
 - Drag and drop your JSON animations in this folder
 - In your LED Subsystem file:
     - Import the **LedCustomAnimations.java** file
