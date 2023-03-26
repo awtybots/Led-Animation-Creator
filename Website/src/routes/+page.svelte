@@ -139,7 +139,7 @@
 </script>
 
 <svelte:head>
-	<title>Led Animation Creator</title>
+	<title>LED Animation Creator</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
