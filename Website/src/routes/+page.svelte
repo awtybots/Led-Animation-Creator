@@ -140,7 +140,7 @@
 
 <svelte:head>
 	<title>LED Animation Creator</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="description" content="Awtybots 5829's LED creator web app" />
 </svelte:head>
 
 <section>

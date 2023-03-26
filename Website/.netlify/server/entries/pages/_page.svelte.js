@@ -88,7 +88,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$rendered;
   do {
     $$settled = true;
-    $$rendered = `${$$result.head += `<!-- HEAD_svelte-1bk068h_START -->${$$result.title = `<title>Led Animation Creator</title>`, ""}<meta name="description" content="Svelte demo app"><!-- HEAD_svelte-1bk068h_END -->`, ""}
+    $$rendered = `${$$result.head += `<!-- HEAD_svelte-1da9aj5_START -->${$$result.title = `<title>LED Animation Creator</title>`, ""}<meta name="description" content="Svelte demo app"><!-- HEAD_svelte-1da9aj5_END -->`, ""}
 
 <section class="svelte-18mlgzm">${dropped_data.length > 0 ? `${validate_component(LedViewer, "LedViewer").$$render(
       $$result,
